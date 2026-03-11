@@ -14,7 +14,7 @@ class GoogleAnalytics4Provider extends BaseProvider
         this._pattern    = /https?:\/\/([^/]+)(?<!(clarity\.ms|transcend\.io)|(\.doubleclick\.net))\/(dds\/g|g)\/collect(?:[/#?]|$)/;
         this._name       = "Google Analytics 4";
         this._type       = "analytics";
-        this._keywords   = ["google", "google analytics", "app+web", "app web", "a+w", "ga4"];
+        this._keywords   = ["google", "google analytics", "app+web", "app web", "a+w", "ga4","ssgtm"];
     }
 
 
@@ -379,6 +379,64 @@ class GoogleAnalytics4Provider extends BaseProvider
             }
         };
     }
+
+        /**
+     * Parse a given URL into human-readable output
+     *
+     * @param {string}  rawUrl   A URL to check against
+     * @param {string}  postData    POST data, if applicable
+     *
+     * @return {{provider: {name: string, key: string, type: string}, data: Array}}
+     */
+    parseUrl(rawUrl, postData = "")
+    {
+        let url = new URL(rawUrl),
+            data = [],
+            stacked = [],
+            params = new URLSearchParams(url.search),
+            postParams = this.parsePostData(postData);
+
+        // Handle POST data first, if applicable (treat as query params)
+        postParams.forEach((pair) => {
+            params.append(pair[0], pair[1]);
+        });
+
+        for(let param of params)
+        {
+            let key = param[0],
+                value = param[1];
+
+            // Stack context data params
+            if (/\.$/.test(key)) {
+                stacked.push(key);
+                continue;
+            }
+            if (/^\./.test(key)) {
+                stacked.pop();
+                continue;
+            }
+
+            let stackedParam = stacked.join("") + key,
+                result = this.handleQueryParam(stackedParam, value);
+            if(typeof result === "object") {
+                data.push(result);
+            }
+        }
+
+        data = data.concat(this.handleCustom(url, params));
+
+        return {
+            "provider": {
+                "name": this.name,
+                "key":  this.key,
+                "type": this.type,
+                "columns": this.columnMapping,
+                "groups":  this.groups
+            },
+            "data": data
+        };
+    }
+
 
     /**
      * Parse a given URL parameter into human-readable form
