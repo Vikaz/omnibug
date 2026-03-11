@@ -11,11 +11,12 @@ class GoogleAnalytics4Provider extends BaseProvider
     {
         super();
         this._key        = "GOOGLEANALYTICS4";
-        this._pattern    = /https?:\/\/([^/]+)(?<!(clarity\.ms|transcend\.io)|(\.doubleclick\.net))\/g\/collect(?:[/#?]|$)/;
+        this._pattern    = /https?:\/\/([^/]+)(?<!(clarity\.ms|transcend\.io)|(\.doubleclick\.net))\/(dds\/g|g)\/collect(?:[/#?]|$)/;
         this._name       = "Google Analytics 4";
         this._type       = "analytics";
         this._keywords   = ["google", "google analytics", "app+web", "app web", "a+w", "ga4"];
     }
+
 
     /**
      * Retrieve the column mappings for default columns (account, event type)

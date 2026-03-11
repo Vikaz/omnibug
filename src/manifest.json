@@ -2,7 +2,7 @@
   "action": {
     "default_popup": "popup/popup.html"
   },
-  "author": "Philip Lawrence",
+  "author": " Lawrence",
   "background": {
     "scripts": [
       "serviceWorker-full.js"
@@ -11,8 +11,8 @@
   },
   "browser_specific_settings": {
     "gecko": {
-      "id": "Omnibug@rosssimpson.com",
-      "strict_min_version": "109.0"
+      "id": "Omnibug@test.com",
+      "strict_min_version": "19.0"
     }
   },
   "description": "Omnibug is a browser extension to decode and display outgoing digital marketing tool requests.",
@@ -28,7 +28,7 @@
   },
   "manifest_version": 3,
   "minimum_chrome_version": "102",
-  "name": "Omnibug",
+  "name": "Omnibug2",
   "options_ui": {
     "page": "options/options.html"
   },
@@ -37,6 +37,6 @@
     "webNavigation",
     "webRequest"
   ],
-  "short_name": "Omnibug",
-  "version": "2.0.0"
+  "short_name": "OmnibugVM",
+  "version": "1.0.0"
 }
